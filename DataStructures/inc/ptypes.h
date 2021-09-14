@@ -1,6 +1,8 @@
 #ifndef _P_TYPES_
 #define _P_TYPES_
 
+typedef enum TYPES_E {UNIT8, UINT16, UINT32, UINT64, INT8, INT16, INT32, INT64, BOOL, STRING, FLOAT, DOUBLE} TYPES_T;
+
 typedef unsigned char uint8_t;
 typedef unsigned short int uint16_t;
 typedef unsigned int uint32_t; 

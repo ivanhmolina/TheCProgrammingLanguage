@@ -16,13 +16,14 @@ typedef struct STACK_NODE_s *STACK_PTR_t;
 
 typedef struct STACK_NODE_s
 {
-    int32_t value;
+    ELEMENT_t value;
     STACK_PTR_t next;
+    TYPES_T utype;
 } STACK_NODE_t;
 
-void push(uint32_t value);
-int32_t pop();
-int32_t peek();
+void push(ELEMENT_t value, TYPES_T vtype);
+ELEMENT_t pop();
+ELEMENT_t peek();
 bool_t isEmpty();
 
 #endif
