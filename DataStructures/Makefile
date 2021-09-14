@@ -5,7 +5,7 @@ CC = gcc
 SUBDIR = $(wildcard */*)
 SOURCES = $(wildcard $(addsuffix /*.c, $(SUBDIR)))
 INCLUDES = $(wildcard $(addsuffix /*.h, $(SUBDIR)))
-INC_DIR = ./inc ./HandlingArgs/inc ./BitwiseOperations/inc
+INC_DIR = ./inc ./HandlingArgs/inc ./BitwiseOperations/inc ./Stack/inc
 INC_FLAGS = $(addprefix -I, $(INC_DIR))
 CPPFLAGS = -DBITS
 
@@ -22,6 +22,9 @@ bits:
 
 types:
 	$(CC) .\TypesLength\src\types_length.c -o types_length $(INC_FLAGS) $(CPPFLAGS)
+
+cstack:
+	$(CC) .\Stack\src\stack.c -o stack $(INC_FLAGS)
 
 clean: 
 	cmd /C del *.exe
