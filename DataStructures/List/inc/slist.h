@@ -3,6 +3,8 @@
 
 #include "ptypes.h"
 
+#define LIST_MAX_ELEMENTS 100
+
 typedef struct SLIST_NODE_s
 {
     int32_t value;
@@ -41,6 +43,9 @@ void updateListNode(SLIST_NODE_t *head, int8_t position, int32_t value);
 void sortListNode(SLIST_NODE_t *head);
 
 //MERGING
-void mergeLists(SLIST_NODE_t *list1, SLIST_NODE_t *list2);
+SLIST_NODE_t *mergeLists(SLIST_NODE_t *list1, SLIST_NODE_t *list2);
+
+//PLACING IN ARRAY
+void listToArray(SLIST_NODE_t *head, SLIST_NODE_t **array, uint8_t len);
 
 #endif

@@ -136,9 +136,43 @@ int16_t searchListNode(SLIST_NODE_t *head, int32_t value)
     return -1;
 }
 
+void updateListNode(SLIST_NODE_t *head, int8_t position, int32_t value)
+{
+    if(head == NULL)
+        printf("List is empty\n");
+    else
+    {
+        SLIST_NODE_t *temp = findPosListNode(head, position);
+        if(temp == NULL)
+            printf("Position %d doesn't exist\n", position);
+        else
+            temp->value = value;
+    }
+}
+
+SLIST_NODE_t *mergeLists(SLIST_NODE_t *list1, SLIST_NODE_t *list2)
+{
+    if(list1 == NULL)
+        list1 = list2;
+    else
+    {
+        SLIST_NODE_t *tail = searchTailListNode(list1);
+        tail->next = list2;
+    }
+    return list1;
+}
+
+void listToArray(SLIST_NODE_t* head, SLIST_NODE_t **array, uint8_t len)
+{
+    for (uint8_t pos = 0; head != NULL && pos < len; head = head->next, pos++)
+        array[pos] = head;
+}
+
 int main()
 {
     SLIST_NODE_t *head = NULL;
+    SLIST_NODE_t *head2 = NULL;
+    SLIST_NODE_t *array[LIST_MAX_ELEMENTS];
 
     printf("printList peekList\n");
     printList(head);
@@ -184,6 +218,34 @@ int main()
         printf("searchListNode(%d): pos=%d\n", i, searchListNode(head, i));
     }
     printList(head);
+
+    printf("updateListNode\n");
+    for (size_t i = 0; i < 5; i++)
+    {
+        updateListNode(head, i, i);
+    }
+    printList(head);
+
+    printf("Initialize list2\n");
+    for (size_t i = 0; i < 4; i++)
+    {
+        pushListNode(&head2, i);
+    }
+    printList(head2);
+
+    printf("mergeLists\n");
+    head = mergeLists(head, head2);
+    printList(head);
+
+    printf("Experiment\n");
+    for (size_t i = 0; i < 7; i++)
+        printf("Experiment(%d): %d\n", i, head[i].value);
+
+    printf("listToArray\n");
+    listToArray(head, array, LIST_MAX_ELEMENTS);
+    for (size_t i = 0; i < 8; i++)
+        printf("Array[%d]=%d\n", i, array[i]->value);
+    
     
 }
 
@@ -205,8 +267,12 @@ static void peekList(SLIST_NODE_t *head)
 
 static SLIST_NODE_t *searchTailListNode(SLIST_NODE_t *head)
 {
-    for(;head->next != NULL; head = head->next);
+    if(head->next != NULL)
+        return searchTailListNode(head->next);
     return head;
+    
+    /*for(;head->next != NULL; head = head->next);
+    return head;*/
 }
 
 static SLIST_NODE_t *findPosListNode(SLIST_NODE_t *head, uint8_t position)
