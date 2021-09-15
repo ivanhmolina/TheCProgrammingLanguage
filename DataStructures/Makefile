@@ -2,10 +2,11 @@
 CC = gcc
 
 #Directory variables for wildcards
+EMPTY=
 SUBDIR = $(wildcard */*)
 SOURCES = $(wildcard $(addsuffix /*.c, $(SUBDIR)))
 INCLUDES = $(wildcard $(addsuffix /*.h, $(SUBDIR)))
-INC_DIR = ./inc ./HandlingArgs/inc ./BitwiseOperations/inc ./Stack/inc
+INC_DIR = ./inc ./HandlingArgs/inc ./BitwiseOperations/inc ./Stack/inc ./List/inc
 INC_FLAGS = $(addprefix -I, $(INC_DIR))
 CPPFLAGS = -DBITS
 
@@ -25,6 +26,9 @@ types:
 
 cstack:
 	$(CC) .\Stack\src\stack.c -o stack $(INC_FLAGS)
+
+slist:
+	$(CC) .\List\src\slist.c -o slist $(INC_FLAGS)
 
 clean: 
 	cmd /C del *.exe
