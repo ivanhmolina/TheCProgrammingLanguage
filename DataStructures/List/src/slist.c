@@ -9,12 +9,19 @@ static SLIST_NODE_t *findPosListNode(SLIST_NODE_t *head, uint8_t position);
 
 void printList(SLIST_NODE_t *head)
 {
-    printf("[");
-    for(;head->next != NULL; head = head->next)
+    if(head == NULL)
     {
-        printf("%d, ", head->value);
+        printf("[empty]\n");
     }
-    printf("%d]\n", head->value);
+    else
+    {
+        printf("[");
+        for (; head->next != NULL; head = head->next)
+        {
+            printf("%d, ", head->value);
+        }
+        printf("%d]\n", head->value);
+    }
 }
 
 void pushListNode(SLIST_NODE_t **head, int32_t value)
@@ -82,23 +89,102 @@ void insertListNode(SLIST_NODE_t **head, int8_t position, int32_t value)
     }
 }
 
+void deleteListNode(SLIST_NODE_t **head, int8_t position)
+{
+    if(position == 0)
+    {
+        popListNode(head);
+    }
+    else
+    {
+        SLIST_NODE_t *temp = findPosListNode(head[0], position-1);
+        if(temp == NULL || temp->next == NULL)
+        {
+            printf("Position %u doesn't exist\n", position);
+        }
+        else
+        {
+            SLIST_NODE_t *deln = temp->next;
+            temp->next = temp->next->next;
+            free(deln);
+        }
+    }
+}
+
+void popListNode(SLIST_NODE_t **head)
+{
+    if(head[0] ==  NULL)
+    {
+        //Head is already empty
+        printf("Head already empty\n");
+    }
+    else
+    {
+        SLIST_NODE_t *temp = head[0];
+        head[0] = head[0]->next;
+        free(temp);
+    }
+}
+
+int16_t searchListNode(SLIST_NODE_t *head, int32_t value)
+{
+    if(head == NULL)
+        return -1;
+    for(int16_t position = 0; head != NULL; head = head->next, position++)
+        if (head->value == value)
+            return position;
+    return -1;
+}
+
 int main()
 {
     SLIST_NODE_t *head = NULL;
+
+    printf("printList peekList\n");
+    printList(head);
     pushListNode(&head, 5);
+    printList(head);
     peekList(head);
+    
+    printf("appendListNode\n");
     for (size_t i = 0; i < 5; i++)
         appendListNode(&head, i);
+    printList(head);
+    
+    printf("pushListNode\n");
     for (size_t i = 0; i < 5; i++)
         pushListNode(&head, i);
     printList(head);
-    peekList(head);
+
+    printf("insertListNode\n");
     insertListNode(&head, 6, 9);
     insertListNode(&head, 13, 9);
     insertListNode(&head, 12, 9);
     insertListNode(&head, 0, 9);
     insertListNode(&head, -1, 9);
     printList(head);
+
+    printf("popListNode\n");
+    for (size_t i = 0; i < 5; i++)
+    {
+        popListNode(&head);
+    }
+    printList(head);
+
+    printf("deleteListNode\n");
+    for (size_t i = 0; i < 5; i++)
+    {
+        deleteListNode(&head, i);
+    }
+    printList(head);
+
+    printf("searchListNode\n");
+    for (size_t i = 0; i < 7; i++)
+    {
+        printf("searchListNode(%d): pos=%d\n", i, searchListNode(head, i));
+    }
+    printList(head);
+    
 }
 
 static SLIST_NODE_t *createListNode(uint32_t value)
