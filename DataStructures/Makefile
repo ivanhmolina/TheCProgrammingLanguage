@@ -6,7 +6,7 @@ EMPTY=
 SUBDIR = $(wildcard */*)
 SOURCES = $(wildcard $(addsuffix /*.c, $(SUBDIR)))
 INCLUDES = $(wildcard $(addsuffix /*.h, $(SUBDIR)))
-INC_DIR = ./inc ./HandlingArgs/inc ./BitwiseOperations/inc ./Stack/inc ./List/inc
+INC_DIR = ./inc ./HandlingArgs/inc ./BitwiseOperations/inc ./Stack/inc ./List/inc ./Tree/inc
 INC_FLAGS = $(addprefix -I, $(INC_DIR))
 CPPFLAGS = -DBITS
 
@@ -29,6 +29,9 @@ cstack:
 
 slist:
 	$(CC) .\List\src\slist.c -o slist $(INC_FLAGS)
+
+ctree:
+	$(CC) .\Tree\src\tree.c -o tree $(INC_FLAGS)
 
 clean: 
 	cmd /C del *.exe
