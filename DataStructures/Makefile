@@ -30,7 +30,7 @@ cstack:
 slist:
 	$(CC) .\List\src\slist.c -o slist $(INC_FLAGS)
 
-ctree:
+btree:
 	$(CC) .\Tree\src\tree.c -o tree $(INC_FLAGS)
 
 clean: 

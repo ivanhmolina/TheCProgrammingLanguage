@@ -30,7 +30,14 @@ TREE_NODE_PTR_t insertTreeNode(TREE_NODE_PTR_t head, int32_t value);
 */
 TREE_NODE_PTR_t searchTreeNode(TREE_NODE_PTR_t head, int32_t value);
 
-void deleteTreeNode(TREE_NODE_PTR_t head, int32_t value);
+//DELETE
+/**  
+ * Delete node with value specified in tree and returns head of tree
+ * @param   head    pointer to head node of the tree.
+ * @param   value   the value to search in the tree. 
+ * @result  A pointer to the head of the tree or NULL if not encountered
+*/
+TREE_NODE_PTR_t deleteTreeNode(TREE_NODE_PTR_t head, int32_t value);
 
 //TRAVERSAL
 /**  
