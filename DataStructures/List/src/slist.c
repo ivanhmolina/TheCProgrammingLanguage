@@ -6,6 +6,20 @@ static SLIST_NODE_t *createListNode(uint32_t value);
 static void peekList();
 static SLIST_NODE_t *searchTailListNode(SLIST_NODE_t *head);
 static SLIST_NODE_t *findPosListNode(SLIST_NODE_t *head, uint8_t position);
+static TREE_LIST_NODE_PTR_t createTreeNode(int32_t value);
+static TREE_LIST_NODE_PTR_t insertNodeInTree(TREE_LIST_NODE_PTR_t head, TREE_LIST_NODE_PTR_t new);
+static TREE_LIST_NODE_PTR_t createTreefromList(SLIST_NODE_PTR_t list_head);
+static void treeSort(SLIST_NODE_PTR_t *list, TREE_LIST_NODE_PTR_t tree);
+
+void sortListNode(SLIST_NODE_t *head)
+{
+    SLIST_NODE_PTR_t temp = head;
+    TREE_LIST_NODE_PTR_t tree = createTreefromList(head);
+
+    treeSort(&temp, tree);
+}
+
+
 
 void printList(SLIST_NODE_t *head)
 {
@@ -172,6 +186,7 @@ int main()
 {
     SLIST_NODE_t *head = NULL;
     SLIST_NODE_t *head2 = NULL;
+    SLIST_NODE_PTR_t list = NULL;
     SLIST_NODE_t *array[LIST_MAX_ELEMENTS];
 
     printf("printList peekList\n");
@@ -245,8 +260,19 @@ int main()
     listToArray(head, array, LIST_MAX_ELEMENTS);
     for (size_t i = 0; i < 8; i++)
         printf("Array[%d]=%d\n", i, array[i]->value);
-    
-    
+
+    printf("Initialize list3\n");
+    for (size_t i = 0; i < 7; i++)
+    {
+        pushListNode(&list, i);
+    }
+    printList(list);
+
+    printf("sortListNode\n");
+    sortListNode(list);
+    printList(list);
+    sortListNode(head);
+    printList(head);
 }
 
 static SLIST_NODE_t *createListNode(uint32_t value)
@@ -279,4 +305,62 @@ static SLIST_NODE_t *findPosListNode(SLIST_NODE_t *head, uint8_t position)
 {
     for (size_t i = 0; i < position && head != NULL; i++, head = head->next);
     return head;
+}
+
+static TREE_LIST_NODE_PTR_t createTreeNode(int32_t value)
+{
+    TREE_LIST_NODE_PTR_t temp = (TREE_LIST_NODE_PTR_t)malloc(sizeof(TREE_LIST_NODE_t));
+    temp->value = value;
+    temp->left = NULL;
+    temp->right = NULL;
+    return temp;
+}
+
+static TREE_LIST_NODE_PTR_t insertNodeInTree(TREE_LIST_NODE_PTR_t head, TREE_LIST_NODE_PTR_t new)
+{
+    TREE_LIST_NODE_PTR_t temp;
+    if (head == NULL)
+        return new;
+    if (new->value > head->value)
+    {
+        temp = insertNodeInTree(head->right, new);
+        head->right = temp;
+    }
+    if (new->value <= head->value)
+    {
+        temp = insertNodeInTree(head->left, new);
+        head->left = temp;
+    }
+    return head;
+}
+
+static TREE_LIST_NODE_PTR_t createTreefromList(SLIST_NODE_PTR_t list_head)
+{
+    TREE_LIST_NODE_PTR_t tree = NULL;
+
+    if (list_head == NULL)
+        return NULL;
+
+    for (; list_head != NULL; list_head = list_head->next)
+    {
+        tree = insertNodeInTree(tree, createTreeNode(list_head->value));
+    }
+
+    return tree;
+}
+
+static void treeSort(SLIST_NODE_PTR_t *list, TREE_LIST_NODE_PTR_t tree)
+{
+    uint32_t temp;
+    if (list == NULL || tree == NULL)
+        printf("Invalid parameters\n");
+
+    if (tree->left != NULL)
+        treeSort(list, tree->left);
+
+    list[0]->value = tree->value;
+    list[0] = list[0]->next;
+
+    if (tree->right != NULL)
+        treeSort(list, tree->right);
 }

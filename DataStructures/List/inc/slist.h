@@ -5,11 +5,22 @@
 
 #define LIST_MAX_ELEMENTS 100
 
+typedef struct SLIST_NODE_s * SLIST_NODE_PTR_t;
+
+typedef struct TREE_LIST_NODE_s * TREE_LIST_NODE_PTR_t;
+
 typedef struct SLIST_NODE_s
 {
     int32_t value;
     struct SLIST_NODE_s *next;
 }SLIST_NODE_t;
+
+typedef struct TREE_LIST_NODE_s
+{
+    int32_t value;
+    TREE_LIST_NODE_PTR_t left;
+    TREE_LIST_NODE_PTR_t right;
+}TREE_LIST_NODE_t;
 
 //TRAVERSAL
 void printList();

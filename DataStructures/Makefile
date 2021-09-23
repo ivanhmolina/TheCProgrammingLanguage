@@ -14,6 +14,7 @@ CPPFLAGS = -DBITS
 help:
 	@echo "Sources: $(SOURCES)"
 	@echo "Includes: $(INCLUDES)"
+	@echo "Options: args | bits | types | cstack | slist | btree | clean"
 
 args:
 	$(CC) .\HandlingArgs\src\handling_args.c -o handling_args $(INC_FLAGS)
