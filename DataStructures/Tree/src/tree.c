@@ -100,6 +100,7 @@ TREE_NODE_PTR_t deleteTreeNode(TREE_NODE_PTR_t head, int32_t value)
         
 }
 
+#ifdef DEBUG_BTREE
 int main()
 {
     TREE_NODE_PTR_t tree = NULL;
@@ -141,6 +142,7 @@ int main()
     printf("\n");
     printf("head = %d\n", tree->value);
 }
+#endif
 
 static TREE_NODE_PTR_t createTreeNode(int32_t value)
 {

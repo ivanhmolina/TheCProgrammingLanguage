@@ -8,7 +8,7 @@ SOURCES = $(wildcard $(addsuffix /*.c, $(SUBDIR)))
 INCLUDES = $(wildcard $(addsuffix /*.h, $(SUBDIR)))
 INC_DIR = ./inc ./HandlingArgs/inc ./BitwiseOperations/inc ./Stack/inc ./List/inc ./Tree/inc
 INC_FLAGS = $(addprefix -I, $(INC_DIR))
-CPPFLAGS = -DBITS
+CPPFLAGS = -DDEBUG_BTREE -DDEBUG_SLIST -DBITS
 
 #Options
 help:
@@ -28,11 +28,17 @@ types:
 cstack:
 	$(CC) .\Stack\src\stack.c -o stack $(INC_FLAGS)
 
-slist:
-	$(CC) .\List\src\slist.c -o slist $(INC_FLAGS)
+slist: btree.o
+	$(CC) .\List\src\slist.c tree.o -o slist $(INC_FLAGS) $(CPPFLAGS)
+
+slist.o: btree.o
+	$(CC) -c .\List\src\slist.c -o slist.o $(INC_FLAGS) 
 
 btree:
-	$(CC) .\Tree\src\tree.c -o tree $(INC_FLAGS)
+	$(CC) .\Tree\src\tree.c -o tree $(INC_FLAGS) $(CPPFLAGS)
+
+btree.o:
+	$(CC) -c .\Tree\src\tree.c -o tree.o $(INC_FLAGS)
 
 clean: 
-	cmd /C del *.exe
+	cmd /C del *.exe *.o
