@@ -2,7 +2,41 @@
 #include <stdlib.h>
 #include "sorting.h"
 
+#define DEBUG_SORT
+
 static void swapInteger(int32_t *a, int32_t *b);
+static void printArray(int32_t array[], uint16_t length);
+
+void bubbleSort(int32_t array[], uint16_t length)
+{
+    bool_t swapped;
+    do
+    {
+        swapped = FALSE;
+        for (uint16_t i = 1; i < length; i++)
+        {
+            if(array[i-1] > array[i])
+            {
+                swapInteger(array+i-1, array+i);
+                swapped = TRUE;
+            }
+        }
+        length--;
+    }
+    while (swapped);
+}
+
+#ifdef DEBUG_SORT
+int main(int argc, char const *argv[])
+{
+    const uint8_t length = 5;
+    int32_t array[5] = {1, 2, 3, 3, 2};
+    bubbleSort(array, length);
+    printArray(array, length);
+    
+    return 0;
+}
+#endif
 
 static void swapInteger(int32_t *a, int32_t *b)
 {
@@ -11,36 +45,11 @@ static void swapInteger(int32_t *a, int32_t *b)
     *b = t;
 }
 
-void bubbleSort(int32_t array[], uint16_t length)
+static void printArray(int32_t array[], uint16_t length)
 {
-    bool_t swapped = FALSE;
-    for (uint16_t i = 0; i < length; i++)
-    {
-        for (uint16_t j = 0; j < length-1; j++)
-        {
-            if(array[j] > array[j+1])
-            {
-                swapInteger(array+j, array+j+1);
-                swapped = TRUE;
-            }
-        }
-        if(swapped = FALSE)
-            break;
-    }
-}
-
-#ifdef DEBUG_SORT
-int main(int argc, char const *argv[])
-{
-    int32_t array[5] = {1, 2, 3, 3, 2};
-    bubbleSort(array, 5);
-    printf("array = ");
-    for (size_t i = 0; i < 5; i++)
-    {
+    uint8_t i;
+    printf("[");
+    for (i = 0; i < length - 1u; i++)
         printf("%d, ", array[i]);
-    }
-    printf("\n");
-    
-    return 0;
+    printf("%d]\n", array[i]);
 }
-#endif
